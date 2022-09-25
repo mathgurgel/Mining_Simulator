@@ -25,6 +25,10 @@ sampleRobot = Robot {
                  collected = 0
               }
 
+instance Show Robot where
+    show (Robot e p c) = "Energy:"    ++ (show e) ++ "\n" ++
+                         "Position"   ++ (show p) ++ "\n" ++
+                         "Collected:" ++ (show c)
 
 data Element = Empty         -- espaço vazio
              | Entry         -- entrada da mina
