@@ -30,6 +30,7 @@ instance Show Robot where
                          "Position"   ++ (show p) ++ "\n" ++
                          "Collected:" ++ (show c)
 
+
 data Element = Empty         -- espaço vazio
              | Entry         -- entrada da mina
              | Wall          -- parede
@@ -37,6 +38,18 @@ data Element = Empty         -- espaço vazio
              | Rock          -- rocha
              | Material Int  -- material, Int indica quantidade.
              deriving (Eq,Ord)
+
+instance Show Element where
+    show Empty = " "  
+    show Entry = "E"     
+    show Wall  = "%"
+    show Earth = "."
+    show Rock  = "*"
+    show (Material qtt)
+        | qtt == 50  = "?"
+        | qtt == 100 = ":"
+        | qtt == 150 = ";"
+        | otherwise  = "$"
 
 
 pElement :: Parser Char Element
@@ -51,7 +64,7 @@ data Mine = Mine {
             } deriving (Eq, Ord)
 
 instance Show Mine where
-  show = undefined
+    show = undefined
 
 
 validMine :: Mine -> Bool
