@@ -51,26 +51,23 @@ instance Show Element where
         | qtt == 150 = ";"
         | otherwise  = "$"
 
-
--- pElement :: Parser Char Element
--- pElement = char_to_elem <$> elemChar
---     where
---         list_of_elements = [" E%.*?:;$"]
-
---         isElement x = x `elem` list_of_elements
-
---         elemChar = sat isElement
+pElement :: Parser Char Element
+pElement = char_to_elem <$> elemChar
+    where
+        elemChar = sat isElement
+            where
+                isElement x = x `elem` " E%.*?:;$"
                         
---         char_to_elem c
---             | c == ' ' = Empty     
---             | c == 'E' = Entry           
---             | c == '%' = Wall  
---             | c == '.' = Earth 
---             | c == '*' = Rock  
---             | c == '?' = Material 50
---             | c == ':' = Material 100
---             | c == ';' = Material 150
---             | c == '$' = Material -1
+        char_to_elem c
+            | c == ' ' = Empty     
+            | c == 'E' = Entry           
+            | c == '%' = Wall  
+            | c == '.' = Earth 
+            | c == '*' = Rock  
+            | c == '?' = Material 50
+            | c == ':' = Material 100
+            | c == ';' = Material 150
+            | c == '$' = Material (-1)
 
 
 type Line = [Element]
