@@ -51,12 +51,15 @@ instance Show Element where
         | qtt == 150 = ";"
         | otherwise  = "$"
 
+
+list_of_elements = " E%.*?:;$"
+
 pElement :: Parser Char Element
 pElement = char_to_elem <$> elemChar
     where
         elemChar = sat isElement
             where
-                isElement x = x `elem` " E%.*?:;$"
+                isElement x = x `elem` list_of_elements
                         
         char_to_elem c
             | c == ' ' = Empty     
