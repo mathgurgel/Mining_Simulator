@@ -86,13 +86,19 @@ data Mine = Mine {
 instance Show Mine where
     show = undefined
 
-
 validMine :: Mine -> Bool
-validMine mine = right_num_lines mine && right_num_columns mine
+validMine mine = right_num_lines mine && right_num_columns mine && entrance mine
     where
         right_num_lines (Mine lins _ elms) = length elms == lins
 
         right_num_columns (Mine _ cols elms) = and $ map (\line -> length line == cols) elms
+
+        entrance (Mine _ _ elms) = isThereEntrance $ lastLine elms
+            where
+                lastLine xs = head $ reverse xs
+
+                isThereEntrance [] = False
+                isThereEntrance (x : xs) = x == Entry || isThereEntrance xs
 
 pLine :: Parser Char Line
 pLine = undefined
