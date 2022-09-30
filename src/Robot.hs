@@ -3,6 +3,8 @@ module Robot ( readLDM
              , run
              )where
 
+import Prelude hiding (lines)
+
 import Control.Monad.State
 import Parsing 
 
@@ -86,7 +88,11 @@ instance Show Mine where
 
 
 validMine :: Mine -> Bool
-validMine = undefined
+validMine mine = right_num_lines mine && right_num_columns mine
+    where
+        right_num_lines (Mine lins _ elms) = length elms == lins
+
+        right_num_columns (Mine _ cols elms) = and $ map (\line -> length line == cols) elms
 
 pLine :: Parser Char Line
 pLine = undefined
