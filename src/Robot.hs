@@ -129,8 +129,12 @@ type Conf = (Robot, Mine)
 type ConfM a = State Conf a
 
 
+-- Exercise 10
+
 current :: ConfM Point
-current = undefined
+current = do
+            (robot, _) <- get
+            return (position robot)
 
 mine :: ConfM Mine
 mine = undefined
@@ -140,6 +144,7 @@ enoughEnergy = undefined
 
 incEnergy :: ConfM ()
 incEnergy = undefined
+
 
 valid :: Instr -> ConfM Bool
 valid = undefined
