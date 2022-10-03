@@ -1,7 +1,4 @@
-module Robot ( readLDM
-             , readLCR
-             , run
-             )where
+module Robot where
 
 import Prelude hiding (lines)
 
@@ -19,13 +16,6 @@ data Robot = Robot {
                 position  :: Point,
                 collected :: Material
              } deriving (Eq, Ord)
-
-sampleRobot :: Robot
-sampleRobot = Robot {
-                 energy = 100,
-                 position = (1,1),
-                 collected = 0
-              }
 
 -- Exercise 1
 

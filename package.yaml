@@ -54,3 +54,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - prova02
+    - tasty
+    - tasty-hunit
+    - tasty-quickcheck
+    - QuickCheck
+    - HUnit

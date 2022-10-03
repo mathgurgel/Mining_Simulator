@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Robot
+import Robot (readLDM, readLCR, run)
 import System.Environment (getArgs)
 
 main :: IO ()
