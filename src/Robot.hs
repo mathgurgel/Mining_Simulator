@@ -150,7 +150,11 @@ enoughEnergy eWanted
 
 
 incEnergy :: ConfM ()
-incEnergy = undefined
+incEnergy = do  (Robot enr pos col, mine) <- get
+                let enr' = enr + 1
+                let robot' = (Robot enr' pos col)
+                put (robot', mine)
+
 
 
 valid :: Instr -> ConfM Bool
