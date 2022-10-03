@@ -28,6 +28,7 @@ sampleRobot = Robot {
               }
 
 -- Exercise 1
+
 instance Show Robot where
     show (Robot e p c) = "Energy:"    ++ (show e) ++ "\n" ++
                          "Position"   ++ (show p) ++ "\n" ++
@@ -43,6 +44,7 @@ data Element = Empty         -- espaço vazio
              deriving (Eq,Ord)
 
 -- Exercise 2
+
 instance Show Element where
     show Empty = " "  
     show Entry = "E"     
@@ -57,6 +59,7 @@ instance Show Element where
 
 
 -- Exercise 3
+
 list_of_elements = " E%.*?:;$"
 
 pElement :: Parser Char Element
@@ -90,6 +93,7 @@ instance Show Mine where
     show = undefined
 
 -- Exercise 4
+
 validMine :: Mine -> Bool
 validMine mine = right_num_lines mine && right_num_columns mine && entrance mine
     where
@@ -156,10 +160,17 @@ incEnergy = do  (Robot enr pos col, mine) <- get
                 put (robot', mine)
 
 
+-- Exercise 11
 
 valid :: Instr -> ConfM Bool
 valid = undefined
-
+-- valid instr
+--     | L =
+--     | R = 
+--     | U = 
+--     | D = 
+--     | C =
+--     | S = return True
 
 updateMine :: Instr -> ConfM ()
 updateMine = undefined
