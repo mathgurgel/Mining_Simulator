@@ -142,7 +142,12 @@ mine = do
         return mine
 
 enoughEnergy :: Int -> ConfM Bool
-enoughEnergy = undefined
+enoughEnergy eWanted
+                = do
+                    (robot, _) <- get
+                    let eRobot = energy robot
+                    return (eRobot > eWanted)
+
 
 incEnergy :: ConfM ()
 incEnergy = undefined
