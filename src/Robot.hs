@@ -137,7 +137,9 @@ current = do
             return (position robot)
 
 mine :: ConfM Mine
-mine = undefined
+mine = do
+        (_, mine) <- get
+        return mine
 
 enoughEnergy :: Int -> ConfM Bool
 enoughEnergy = undefined
