@@ -151,7 +151,9 @@ incEnergy = do  (Robot enr pos col, mine) <- get
 
 
 -- Exercise 11
-
+-- (!!) :: [a] -> Int -> a
+-- Defined in GHC.List
+-- https://stackoverflow.com/questions/23427728/how-to-extract-the-value-from-a-certain-position-in-a-matrix-in-haskell
 valid :: Instr -> ConfM Bool
 valid = undefined
 -- valid instr
@@ -159,7 +161,11 @@ valid = undefined
 --     | R = 
 --     | U = 
 --     | D = 
---     | C =
+--     | C = do 
+--             (robot, mine) <- get
+--             enoughEnergy 10
+--             let pos = position robot
+
 --     | S = return True
 
 updateMine :: Instr -> ConfM ()
