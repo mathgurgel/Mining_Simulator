@@ -68,7 +68,7 @@ pElement = char_to_elem <$> elemChar
             | c == '?' = Material 50
             | c == ':' = Material 100
             | c == ';' = Material 150
-            | c == '$' = Material (-1)
+            | c == '$' = Material 1
 
 
 type Line = [Element]
