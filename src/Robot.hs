@@ -158,40 +158,32 @@ incEnergy = do  (Robot enr pos col, mine) <- get
 valid :: Instr -> ConfM Bool
 valid = undefined
 -- valid instr =
---     let
+--     if instr == S then do return True
+--     else do
+--         (robot, mine) <- get
+--         let (x, y) = position robot
+--         let pr = (x + 1, y)
+--         let pl = (x - 1, y)
+--         let pu = (x, y + 1)
+--         let pd = (x, y - 1)
+
+--         if instr == C then do
+--             enoughEnergy 10
+--             let mElements = elements mine
+
+--             return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
+--         else do -- movement instruction
+--             enoughEnergy 1
+--             case instr of L -> return (hasWall mElements pl)
+--                           R -> return (hasWall mElements pr)
+--                           U -> return (hasWall mElements pu)
+--                           D -> return (hasWall mElements pd)
+--     where
+--         hasMaterial mine (x, y) = material `elem` materials
 --         hasMaterial mine (x, y) = (head $ show material) `elem` materials
 --             where
 --                 material = mine !! x !! y
 --                 materials = "?:;$"
-
---         hasWall mine (x, y) = element == Wall
---             where
---                 element = mine !! x !! y
---     in   
---         if instr == S then do return True
---         else do
---             (robot, mine) <- get
---             let pr = (x + 1, y)
---             let pl = (x - 1, y)
---             let pu = (x, y + 1)
---             let pd = (x, y - 1)
-
---             if instr == C then do
---                 enoughEnergy 10
---                 let (x, y) = position 
---                 let mElements = elements mine
-                
---                 return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
---             else do -- movement instruction
---                 enoughEnergy 1
---                 if instr == L then do
---                     return (hasWall mElements pl)
---                 else if instr == R then do
---                     return (hasWall mElements pr)
---                 else if instr == U then do
---                     return (hasWall mElements pu)
---                 else if instr == D then do
---                     return (hasWall mElements pd)            
 
 
 exec :: Instr -> ConfM ()
