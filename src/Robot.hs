@@ -164,9 +164,19 @@ valid = undefined
 --     | C = do 
 --             (robot, mine) <- get
 --             enoughEnergy 10
---             let pos = position robot
-
+--             let (x, y) = position robot
+--             let m = elements mine
+--             let pr = (x + 1, y)
+--             let pl = (x - 1, y)
+--             let pu = (x, y + 1)
+--             let pd = (x, y - 1)
+--             return (hasMaterial mine pr || hasMaterial mine pl || hasMaterial mine pu || hasMaterial mine pd)
 --     | S = return True
+--     where
+--         hasMaterial mine (x, y) = material `elem` materials
+--             where
+--                 material = mine !! x !! y
+--                 materials = "?:;$"
 
 updateMine :: Instr -> ConfM ()
 updateMine = undefined
