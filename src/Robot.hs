@@ -154,32 +154,45 @@ incEnergy = do  (Robot enr pos col, mine) <- get
 -- (!!) :: [a] -> Int -> a
 -- Defined in GHC.List
 -- https://stackoverflow.com/questions/23427728/how-to-extract-the-value-from-a-certain-position-in-a-matrix-in-haskell
+
 valid :: Instr -> ConfM Bool
 valid = undefined
--- valid instr
---     | L =
---     | R = 
---     | U = 
---     | D = 
---     | C = do 
---             (robot, mine) <- get
---             enoughEnergy 10
---             let (x, y) = position robot
---             let m = elements mine
---             let pr = (x + 1, y)
---             let pl = (x - 1, y)
---             let pu = (x, y + 1)
---             let pd = (x, y - 1)
---             return (hasMaterial mine pr || hasMaterial mine pl || hasMaterial mine pu || hasMaterial mine pd)
---     | S = return True
+-- valid instr =
+--     if instr == S then do return True
+--     else
+--         do
+--           (robot, mine) <- get
+--           let pr = (x + 1, y)
+--           let pl = (x - 1, y)
+--           let pu = (x, y + 1)
+--           let pd = (x, y - 1)
+
+--           if instr == C then do
+--               enoughEnergy 10
+--               let (x, y) = position 
+--               let mElements = elements mine
+              
+--               return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
+--           else do -- movement instruction
+--               enoughEnergy 1
+--               if instr == L then do
+--                   return (hasWall mElements pl)
+--               else if instr == R then do
+--                   return (hasWall mElements pr)
+--               else if instr == U then do
+--                   return (hasWall mElements pu)
+--               else if instr == D then do
+--                   return (hasWall mElements pd)
 --     where
---         hasMaterial mine (x, y) = material `elem` materials
+--         hasMaterial mine (x, y) = (head $ show material) `elem` materials
 --             where
 --                 material = mine !! x !! y
 --                 materials = "?:;$"
 
-updateMine :: Instr -> ConfM ()
-updateMine = undefined
+--         hasWall mine (x, y) = element == Wall
+--             where
+--                 element = mine !! x !! y
+
 
 exec :: Instr -> ConfM ()
 exec = undefined
