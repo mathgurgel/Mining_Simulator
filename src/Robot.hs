@@ -4,6 +4,7 @@ import Prelude hiding (lines)
 
 import Control.Monad.State
 import Parsing 
+import Data.Matrix as MT
 
 
 
@@ -187,7 +188,19 @@ valid instr =
         hasWall mine (x, y) = (mine !! x !! y) == Wall
 
 
+-- Helper function
+
+changeRobotEnr :: Int -> ConfM ()
+changeRobotEnr n =
+    do
+        (Robot enr pos col, mine) <- get
+        let enr' = enr + n
+        let robot' = (Robot enr' pos col)
+        put (robot', mine)
+
+
 -- Exercise 12
+-- setElem :: a -> (Int, Int) -> Matrix a -> Matrix a
 
 updateMine :: Instr -> ConfM ()
 updateMine = undefined
@@ -197,22 +210,58 @@ updateMine = undefined
 
 --         if instr == S then do
 --             incEnergy
---         else
---             (robot, mine) <- get
---             let (x, y) = position robot
+--         else do
+--             (x, y) <- current
 --             let pr = (x + 1, y)
 --             let pl = (x - 1, y)
 --             let pu = (x, y + 1)
 --             let pd = (x, y - 1)
---             let mElements = elements mine
+--             -- let mElements = elements mine
 
---             if instr == C then
---                 ?
---             else do
---                 case instr of L -> put(Robot (energy robot) pl (collected robot), Mine (lines mine) (columns mine) ?)
---                               R -> put(Robot (energy robot) pr (collected robot), Mine (lines mine) (columns mine) ?)
---                               U -> put(Robot (energy robot) pu (collected robot), Mine (lines mine) (columns mine) ?)
---                               D -> put(Robot (energy robot) pd (collected robot), Mine (lines mine) (columns mine) ?)
+--             if instr == C then do
+--                 if (hasMaterial mine pr) then do
+--                     collect_material pr
+--                 else if (hasMaterial mine pl) then do
+--                     collect_material pl
+--                 else if (hasMaterial mine pu) then do
+--                     collect_material pu
+--                 else if (hasMaterial mine pd) then do
+--                     collect_material pd
+--             else
+--                 if instr == L then do
+--                     movement pl
+--                 else if instr == R then do
+--                     movement pr
+--                 else if instr == U then do
+--                     movement pu
+--                 else if instr == D then do
+--                     movement pd
+--     where
+--         hasMaterial mine (x, y) = (head $ show material) `elem` materials
+--             where
+--                 material = (elements mine) !! x !! y
+--                 materials = "?:;$"
+        
+--         collect_material point =
+--             do
+--                 (Mine lin col elm) <- mine
+--                 let elm' = setElem Empty point elm
+--                 changeRobotEnr (-10)
+--                 (robot', _) <- get
+--                 let mine' = Mine lin col elm'
+--                 put (robot', mine')
+        
+--         movement pos' =
+--             do
+--                 (Robot enr _ col, mine) <- get
+--                 let robot' = Robot enr pos' col
+--                 put (robot', mine)
+--                 changeRobotEnr (-1)
+
+
+
+
+
 
 
 
