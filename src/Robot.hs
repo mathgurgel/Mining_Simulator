@@ -156,34 +156,35 @@ incEnergy = do  (Robot enr pos col, mine) <- get
 -- https://stackoverflow.com/questions/23427728/how-to-extract-the-value-from-a-certain-position-in-a-matrix-in-haskell
 
 valid :: Instr -> ConfM Bool
-valid = undefined
--- valid instr =
---     if instr == S then do return True
---     else do
---         (robot, mine) <- get
---         let (x, y) = position robot
---         let pr = (x + 1, y)
---         let pl = (x - 1, y)
---         let pu = (x, y + 1)
---         let pd = (x, y - 1)
+valid instr =
+    if instr == S then do -- charge
+        return True
+    else do
+        (robot, mine) <- get
+        let (x, y) = position robot
+        let pr = (x + 1, y)
+        let pl = (x - 1, y)
+        let pu = (x, y + 1)
+        let pd = (x, y - 1)
+        let mElements = elements mine
 
---         if instr == C then do
---             enoughEnergy 10
---             let mElements = elements mine
+        if instr == C then do -- collect
+            enoughEnergy 10
 
---             return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
---         else do -- movement instruction
---             enoughEnergy 1
---             case instr of L -> return (hasWall mElements pl)
---                           R -> return (hasWall mElements pr)
---                           U -> return (hasWall mElements pu)
---                           D -> return (hasWall mElements pd)
---     where
---         hasMaterial mine (x, y) = material `elem` materials
---         hasMaterial mine (x, y) = (head $ show material) `elem` materials
---             where
---                 material = mine !! x !! y
---                 materials = "?:;$"
+            return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
+        else do -- movement instruction
+            enoughEnergy 1
+            case instr of L -> return (not $ hasWall mElements pl)
+                          R -> return (not $ hasWall mElements pr)
+                          U -> return (not $ hasWall mElements pu)
+                          D -> return (not $ hasWall mElements pd)
+    where
+        hasMaterial mine (x, y) = (head $ show material) `elem` materials
+            where
+                material = mine !! x !! y
+                materials = "?:;$"
+
+        hasWall mine (x, y) = (mine !! x !! y) == Wall
 
 
 exec :: Instr -> ConfM ()
