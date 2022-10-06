@@ -187,6 +187,36 @@ valid instr =
         hasWall mine (x, y) = (mine !! x !! y) == Wall
 
 
+-- Exercise 12
+
+updateMine :: Instr -> ConfM ()
+updateMine = undefined
+-- updateMine instr =
+--     do
+--         valid instr
+
+--         if instr == S then do
+--             incEnergy
+--         else
+--             (robot, mine) <- get
+--             let (x, y) = position robot
+--             let pr = (x + 1, y)
+--             let pl = (x - 1, y)
+--             let pu = (x, y + 1)
+--             let pd = (x, y - 1)
+--             let mElements = elements mine
+
+--             if instr == C then
+--                 ?
+--             else do
+--                 case instr of L -> put(Robot (energy robot) pl (collected robot), Mine (lines mine) (columns mine) ?)
+--                               R -> put(Robot (energy robot) pr (collected robot), Mine (lines mine) (columns mine) ?)
+--                               U -> put(Robot (energy robot) pu (collected robot), Mine (lines mine) (columns mine) ?)
+--                               D -> put(Robot (energy robot) pd (collected robot), Mine (lines mine) (columns mine) ?)
+
+
+
+
 exec :: Instr -> ConfM ()
 exec = undefined
 
