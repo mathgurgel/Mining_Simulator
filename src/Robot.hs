@@ -151,6 +151,14 @@ incEnergy = do  (Robot enr pos col, mine) <- get
                 put (robot', mine)
 
 
+-- Helper function
+
+hasMaterial :: Mine -> Point -> Bool
+hasMaterial mine (x, y) = (head $ show material) `elem` materials
+    where
+        material = (elements mine) !! x !! y
+        materials = "?:;$"
+
 -- Exercise 11
 
 -- (!!) :: [a] -> Int -> a
@@ -162,31 +170,26 @@ valid instr =
     if instr == S then do -- charge
         return True
     else do
-        (robot, mine) <- get
+        (robot, m) <- get
         let (x, y) = position robot
         let pr = (x + 1, y)
         let pl = (x - 1, y)
         let pu = (x, y + 1)
         let pd = (x, y - 1)
-        let mElements = elements mine
 
         if instr == C then do -- collect
             enoughEnergy 10
 
-            return ((hasMaterial mElements pr || hasMaterial mElements pl || hasMaterial mElements pu || hasMaterial mElements pd))
+            return ((hasMaterial m pr || hasMaterial m pl || hasMaterial m pu || hasMaterial m pd))
         else do -- movement instruction
             enoughEnergy 1
-            case instr of L -> return (not $ hasWall mElements pl)
-                          R -> return (not $ hasWall mElements pr)
-                          U -> return (not $ hasWall mElements pu)
-                          D -> return (not $ hasWall mElements pd)
+            case instr of L -> return (not $ hasWall m pl)
+                          R -> return (not $ hasWall m pr)
+                          U -> return (not $ hasWall m pu)
+                          D -> return (not $ hasWall m pd)
     where
-        hasMaterial mine (x, y) = (head $ show material) `elem` materials
-            where
-                material = mine !! x !! y
-                materials = "?:;$"
-
-        hasWall mine (x, y) = (mine !! x !! y) == Wall
+        hasWall mine (x, y) = (mElements !! x !! y) == Wall
+            where mElements = elements mine
 
 
 -- Helper function
@@ -246,11 +249,6 @@ updateMine instr =
                                             False -> case (instr == D) of
                                                         True -> movement pd
     where
-        hasMaterial min (x, y) = (head $ show material) `elem` materials
-            where
-                material = (elements min) !! x !! y
-                materials = "?:;$"
-        
         collect_material point =
             do
                 (Mine lin col elm) <- mine
