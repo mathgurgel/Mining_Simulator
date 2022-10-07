@@ -152,9 +152,10 @@ incEnergy = do  (Robot enr pos col, mine) <- get
 
 
 -- Exercise 11
+
 -- (!!) :: [a] -> Int -> a
 -- Defined in GHC.List
--- https://stackoverflow.com/questions/23427728/how-to-extract-the-value-from-a-certain-position-in-a-matrix-in-haskell
+-- Ref: https://stackoverflow.com/questions/23427728/how-to-extract-the-value-from-a-certain-position-in-a-matrix-in-haskell
 
 valid :: Instr -> ConfM Bool
 valid instr =
@@ -199,71 +200,72 @@ changeRobotEnr n =
         put (robot', mine)
 
 
+-- Helper function
+-- Ref: https://stackoverflow.com/questions/20156078/replacing-an-element-in-a-list-of-lists-in-haskell
+
+updateMatrix :: [[a]] -> a -> (Int, Int) -> [[a]]
+updateMatrix m x (r,c) =
+    take r m ++
+    [take c (m !! r) ++ [x] ++ drop (c + 1) (m !! r)] ++
+    drop (r + 1) m
+
+
 -- Exercise 12
--- setElem :: a -> (Int, Int) -> Matrix a -> Matrix a
 
 updateMine :: Instr -> ConfM ()
-updateMine = undefined
--- updateMine instr =
---     do
---         valid instr
+updateMine instr =
+    do
+        valid instr
 
---         if instr == S then do
---             incEnergy
---         else do
---             (x, y) <- current
---             let pr = (x + 1, y)
---             let pl = (x - 1, y)
---             let pu = (x, y + 1)
---             let pd = (x, y - 1)
---             -- let mElements = elements mine
+        if instr == S then do -- charge instruction
+            incEnergy
+        else do
+            (x, y) <- current
+            let pr = (x + 1, y)
+            let pl = (x - 1, y)
+            let pu = (x, y + 1)
+            let pd = (x, y - 1)
+            (_, min) <- get
 
---             if instr == C then do
---                 if (hasMaterial mine pr) then do
---                     collect_material pr
---                 else if (hasMaterial mine pl) then do
---                     collect_material pl
---                 else if (hasMaterial mine pu) then do
---                     collect_material pu
---                 else if (hasMaterial mine pd) then do
---                     collect_material pd
---             else
---                 if instr == L then do
---                     movement pl
---                 else if instr == R then do
---                     movement pr
---                 else if instr == U then do
---                     movement pu
---                 else if instr == D then do
---                     movement pd
---     where
---         hasMaterial mine (x, y) = (head $ show material) `elem` materials
---             where
---                 material = (elements mine) !! x !! y
---                 materials = "?:;$"
+            if instr == C then do -- collect instruction
+                case (hasMaterial min pr) of
+                    True -> collect_material pr
+                    False -> case (hasMaterial min pl) of
+                                True -> collect_material pl
+                                False -> case (hasMaterial min pu) of
+                                            True -> collect_material pu
+                                            False -> case (hasMaterial min pd) of
+                                                        True -> collect_material pd
+            else do -- movement instruction
+                case (instr == L) of
+                    True -> movement pl
+                    False -> case (instr == R) of
+                                True -> movement pr
+                                False -> case (instr == U) of
+                                            True -> movement pu
+                                            False -> case (instr == D) of
+                                                        True -> movement pd
+    where
+        hasMaterial min (x, y) = (head $ show material) `elem` materials
+            where
+                material = (elements min) !! x !! y
+                materials = "?:;$"
         
---         collect_material point =
---             do
---                 (Mine lin col elm) <- mine
---                 let elm' = setElem Empty point elm
---                 changeRobotEnr (-10)
---                 (robot', _) <- get
---                 let mine' = Mine lin col elm'
---                 put (robot', mine')
+        collect_material point =
+            do
+                (Mine lin col elm) <- mine
+                let elm' = updateMatrix elm Empty point
+                changeRobotEnr (-10)
+                (robot', _) <- get
+                let mine' = Mine lin col elm'
+                put (robot', mine')
         
---         movement pos' =
---             do
---                 (Robot enr _ col, mine) <- get
---                 let robot' = Robot enr pos' col
---                 put (robot', mine)
---                 changeRobotEnr (-1)
-
-
-
-
-
-
-
+        movement pos' =
+            do
+                (Robot enr _ col, mine) <- get
+                let robot' = Robot enr pos' col
+                put (robot', mine)
+                changeRobotEnr (-1)
 
 
 exec :: Instr -> ConfM ()
