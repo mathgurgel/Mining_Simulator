@@ -228,16 +228,16 @@ updateMine instr =
             let pl = (x - 1, y)
             let pu = (x, y + 1)
             let pd = (x, y - 1)
-            (_, min) <- get
+            (_, m) <- get
 
             if instr == C then do -- collect instruction
-                case (hasMaterial min pr) of
+                case (hasMaterial m pr) of
                     True -> collect_material pr
-                    False -> case (hasMaterial min pl) of
+                    False -> case (hasMaterial m pl) of
                                 True -> collect_material pl
-                                False -> case (hasMaterial min pu) of
+                                False -> case (hasMaterial m pu) of
                                             True -> collect_material pu
-                                            False -> case (hasMaterial min pd) of
+                                            False -> case (hasMaterial m pd) of
                                                         True -> collect_material pd
             else do -- movement instruction
                 case (instr == L) of
