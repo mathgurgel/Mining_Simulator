@@ -5,11 +5,7 @@ import Prelude hiding (lines)
 import Control.Monad.State
 import Parsing 
 --import Data.Matrix as MT
-<<<<<<< HEAD
 import Data.List hiding (lines)
-=======
--- import Data.List hiding (lines)
->>>>>>> 17fdd106f65903ceb019cc5fedd3222caf260595
 
 
 type Fuel = Int
@@ -86,12 +82,7 @@ data Mine = Mine {
 
 --https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
 instance Show Mine where
-<<<<<<< HEAD
     show (Mine _ _ rows) = filter (`notElem` "[],") $ intercalate "\n" $ map show rows
-=======
-    show = undefined
-    -- show (Mine   rows) = unlines $ map show rows
->>>>>>> 17fdd106f65903ceb019cc5fedd3222caf260595
 
 -- Exercise 4
 
