@@ -4,7 +4,7 @@ import Prelude hiding (lines)
 
 import Control.Monad.State
 import Parsing 
-import Data.Matrix as MT
+-- import Data.Matrix as MT
 
 
 
@@ -218,36 +218,37 @@ updateMatrix m x (r,c) =
 updateMine :: Instr -> ConfM ()
 updateMine instr =
     do
-        valid instr
+        isValid <- valid instr
 
-        if instr == S then do -- charge instruction
-            incEnergy
-        else do
-            (x, y) <- current
-            let pr = (x + 1, y)
-            let pl = (x - 1, y)
-            let pu = (x, y + 1)
-            let pd = (x, y - 1)
-            (_, m) <- get
+        case isValid of
+            True -> if instr == S then do -- charge instruction
+                        incEnergy
+                    else do
+                        (x, y) <- current
+                        let pr = (x + 1, y)
+                        let pl = (x - 1, y)
+                        let pu = (x, y + 1)
+                        let pd = (x, y - 1)
+                        (_, m) <- get
 
-            if instr == C then do -- collect instruction
-                case (hasMaterial m pr) of
-                    True -> collect_material pr
-                    False -> case (hasMaterial m pl) of
-                                True -> collect_material pl
-                                False -> case (hasMaterial m pu) of
-                                            True -> collect_material pu
-                                            False -> case (hasMaterial m pd) of
-                                                        True -> collect_material pd
-            else do -- movement instruction
-                case (instr == L) of
-                    True -> movement pl
-                    False -> case (instr == R) of
-                                True -> movement pr
-                                False -> case (instr == U) of
-                                            True -> movement pu
-                                            False -> case (instr == D) of
-                                                        True -> movement pd
+                        if instr == C then do -- collect instruction
+                            case (hasMaterial m pr) of
+                                True -> collect_material pr
+                                False -> case (hasMaterial m pl) of
+                                            True -> collect_material pl
+                                            False -> case (hasMaterial m pu) of
+                                                        True -> collect_material pu
+                                                        False -> case (hasMaterial m pd) of
+                                                                    True -> collect_material pd
+                        else do -- movement instruction
+                            case (instr == L) of
+                                True -> movement pl
+                                False -> case (instr == R) of
+                                            True -> movement pr
+                                            False -> case (instr == U) of
+                                                        True -> movement pu
+                                                        False -> case (instr == D) of
+                                                                    True -> movement pd
     where
         collect_material point =
             do
