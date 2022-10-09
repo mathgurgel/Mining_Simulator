@@ -293,6 +293,8 @@ updateMine instr =
                 changeRobotEnr (-1)
 
 
+-- Exercise 13
+
 exec :: Instr -> ConfM ()
 exec instr =
     do
@@ -302,8 +304,21 @@ exec instr =
             True -> updateMine instr
             False -> updateMine S
 
+
+-- Exercise 14
+
 initRobot :: Mine -> Robot
-initRobot = undefined
+initRobot mine = Robot 100 (entrance mine) 0
+    where
+        entrance (Mine l _ m) = (x, y)
+            where
+                x = l - 1
+                y = entrance_pos $ lastLine m
+
+                lastLine m = head $ reverse m
+
+                entrance_pos line = length $ takeWhile (/= Entry) line
+
 
 run :: [Instr] -> Mine -> Mine
 run = undefined
