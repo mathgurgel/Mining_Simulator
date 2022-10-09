@@ -5,7 +5,7 @@ import Prelude hiding (lines)
 import Control.Monad.State
 import Parsing 
 --import Data.Matrix as MT
-import Data.List
+-- import Data.List hiding (lines)
 
 
 type Fuel = Int
@@ -82,7 +82,8 @@ data Mine = Mine {
 
 --https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
 instance Show Mine where
-    show (Mine   rows) = unlines $ map show rows
+    show = undefined
+    -- show (Mine   rows) = unlines $ map show rows
 
 -- Exercise 4
 
@@ -293,7 +294,13 @@ updateMine instr =
 
 
 exec :: Instr -> ConfM ()
-exec = undefined
+exec instr =
+    do
+        isValid <- valid instr
+
+        case isValid of
+            True -> updateMine instr
+            False -> updateMine S
 
 initRobot :: Mine -> Robot
 initRobot = undefined
