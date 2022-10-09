@@ -4,8 +4,8 @@ import Prelude hiding (lines)
 
 import Control.Monad.State
 import Parsing 
--- import Data.Matrix as MT
-
+--import Data.Matrix as MT
+import Data.List
 
 
 type Fuel = Int
@@ -80,8 +80,9 @@ data Mine = Mine {
               elements :: [Line]
             } deriving (Eq, Ord)
 
+--https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
 instance Show Mine where
-    show = undefined
+    show (Mine   rows) = unlines $ map show rows
 
 -- Exercise 4
 
