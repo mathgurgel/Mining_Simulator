@@ -124,11 +124,15 @@ exampleMine = Mine {
                             [Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Entry,Wall]]
             }
 
+
+-- Exercise 6
+
 pLine :: Parser Char Line
-pLine = undefined
+pLine = greedy pElement
 
 pMine :: Parser Char Mine
 pMine = undefined
+
 
 data Instr = L -- move para esquerda
            | R -- move para direita
