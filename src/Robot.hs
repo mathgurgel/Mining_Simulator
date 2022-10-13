@@ -124,6 +124,8 @@ exampleMine = Mine {
                             [Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Entry,Wall]]
             }
 
+
+-- Exercise 6
 pLine :: Parser Char Line
 pLine = undefined
 
@@ -138,8 +140,25 @@ data Instr = L -- move para esquerda
            | S -- para para recarga.
            deriving (Eq,Ord,Show,Enum)
 
+-- Exercise 8
+
+list_of_instr = "LRUDCS"
+
+
 pInstr :: Parser Char Instr
-pInstr = undefined
+pInstr = char_to_instr <$> instrChar
+    where
+        instrChar = sat isInstr
+            where
+                isInstr x = x `elem` list_of_instr
+        
+        char_to_instr i
+            | i == 'L' = L
+            | i == 'R' = R
+            | i == 'U' = U
+            | i == 'D' = D
+            | i == 'C' = C
+            | i == 'S' = S
 
 pProgram :: Parser Char [Instr]
 pProgram = undefined
