@@ -161,7 +161,7 @@ pInstr = char_to_instr <$> instrChar
             | i == 'C' = C
             | i == 'S' = S
 
--- Exercicio 9
+-- Exercise 9
 pProgram :: Parser Char [Instr]
 pProgram = greedy pInstr
 
