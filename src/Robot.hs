@@ -396,7 +396,14 @@ run instrs m = fst $ runState prog conf
 -- Exercise 16
 
 readLDM :: String -> IO (Either String Mine)
-readLDM = undefined
+readLDM inp =
+    do
+        let result = runParser pMine inp
+
+        case result of
+            [] -> return (Left "error: cannot read file")
+            [(m, _)] -> return (Right m)
+
 
 
 -- Exercise 17
