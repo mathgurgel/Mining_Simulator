@@ -131,7 +131,7 @@ pLine :: Parser Char Line
 pLine = greedy pElement
 
 testMine :: String
-testMine = "%%%\n%%%\n%E%"
+testMine = "%%%\n%%%\n%E%\nasdasdas"
 
 pMine :: Parser Char Mine
 pMine = Parser runPrsr
@@ -141,7 +141,7 @@ pMine = Parser runPrsr
                             xs -> if (validMine mine) then [(mine, rest)]
                                   else []
             where
-                pElms = listOf pLine (symbol '\n')
+                pElms = endBy pLine (symbol '\n')
 
                 result_pElms = runParser pElms inp
                 elms = fst $ head $ result_pElms
