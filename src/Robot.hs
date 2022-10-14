@@ -401,7 +401,7 @@ readLDM inp =
         let result = runParser pMine inp
 
         case result of
-            [] -> return (Left "error: cannot read file")
+            [] -> return (Left "error: cannot read ldm file")
             [(m, _)] -> return (Right m)
 
 
@@ -409,4 +409,10 @@ readLDM inp =
 -- Exercise 17
 
 readLCR :: String -> IO (Either String [Instr])
-readLCR = undefined
+readLCR inp =
+    do
+        let result = runParser pProgram inp
+
+        case result of
+            [] -> return (Left "error: cannot read lcr file")
+            [(m, _)] -> return (Right m)
