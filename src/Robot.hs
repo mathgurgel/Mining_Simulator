@@ -4,8 +4,7 @@ import Prelude
 
 import Control.Monad.State
 import Parsing 
---import Data.Matrix as MT
-import Data.List
+import Data.List hiding (lines)
 
 
 type Fuel = Int
@@ -75,7 +74,7 @@ pElement = char_to_elem <$> elemChar
 type Line = [Element]
 
 data Mine = Mine {
-              lines'    :: Int,
+              lines    :: Int,
               columns  :: Int,
               elements :: [Line]
             } deriving (Eq, Ord)
@@ -105,7 +104,7 @@ validMine mine = right_num_lines mine && right_num_columns mine && entrance mine
 
 exampleMine :: Mine
 exampleMine = Mine {
-                lines' = 15,
+                lines = 15,
                 columns = 15,
                 elements = [[Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall], 
                             [Wall,Rock,Rock,Rock,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Wall],
@@ -243,10 +242,10 @@ valid instr =
     else do
         (robot, m) <- get
         let (x, y) = position robot
-        let pr = (x + 1, y)
-        let pl = (x - 1, y)
-        let pu = (x, y + 1)
-        let pd = (x, y - 1)
+        let pr = (x, y + 1)
+        let pl = (x, y - 1)
+        let pu = (x - 1, y)
+        let pd = (x + 1, y)
 
         if instr == C then do -- collect
             enoughEnergy 10
@@ -284,6 +283,10 @@ updateMatrix m x (r,c) =
     drop (r + 1) m
 
 
+-- 00 01 02
+-- 10 11 12
+-- 20 21 22
+
 -- Exercise 12
 
 updateMine :: Instr -> ConfM ()
@@ -296,10 +299,10 @@ updateMine instr =
                         incEnergy
                     else do
                         (x, y) <- current
-                        let pr = (x + 1, y)
-                        let pl = (x - 1, y)
-                        let pu = (x, y + 1)
-                        let pd = (x, y - 1)
+                        let pr = (x, y + 1)
+                        let pl = (x, y - 1)
+                        let pu = (x - 1, y)
+                        let pd = (x + 1, y)
                         (_, m) <- get
 
                         if instr == C then do -- collect instruction
@@ -365,11 +368,51 @@ initRobot mine = Robot 100 (entrance mine) 0
                 entrance_pos line = length $ takeWhile (/= Entry) line
 
 
+-- Helper function
+
+updateMine' :: [Instr] -> ConfM ()
+updateMine' xs = mapM_ updateMine xs
+
+-- Exercise 15
+
 run :: [Instr] -> Mine -> Mine
-run = undefined
+run instrs m = fst $ runState prog conf
+    where
+        robot = initRobot m
+        conf = (robot, m)
+
+        prog :: ConfM Mine
+        prog =
+            do
+                put conf
+
+                updateMine' instrs
+
+                m <- mine
+
+                return m
+
+
+-- Exercise 16
 
 readLDM :: String -> IO (Either String Mine)
-readLDM = runParser pMine readFile
+readLDM inp =
+    do
+        let result = runParser pMine inp
+
+        case result of
+            [] -> return (Left "error: cannot read ldm file")
+            [(m, _)] -> return (Right m)
+
+
+
+-- Exercise 17
 
 readLCR :: String -> IO (Either String [Instr])
-readLCR = undefined
+readLCR inp =
+    do
+        let result = runParser pProgram inp
+
+        case result of
+            [] -> return (Left "error: cannot read lcr file")
+            [(m, _)] -> return (Right m)
