@@ -4,7 +4,6 @@ import Prelude hiding (lines)
 
 import Control.Monad.State
 import Parsing 
---import Data.Matrix as MT
 import Data.List hiding (lines)
 
 
@@ -365,11 +364,38 @@ initRobot mine = Robot 100 (entrance mine) 0
                 entrance_pos line = length $ takeWhile (/= Entry) line
 
 
+-- Helper function
+
+updateMine' :: [Instr] -> ConfM ()
+updateMine' xs = mapM_ updateMine xs
+
+-- Exercise 15
+
 run :: [Instr] -> Mine -> Mine
-run = undefined
+run instrs m = fst $ runState prog conf
+    where
+        robot = initRobot m
+        conf = (robot, m)
+
+        prog :: ConfM Mine
+        prog =
+            do
+                put conf
+
+                updateMine' instrs
+
+                m <- mine
+
+                return m
+
+
+-- Exercise 16
 
 readLDM :: String -> IO (Either String Mine)
 readLDM = undefined
+
+
+-- Exercise 17
 
 readLCR :: String -> IO (Either String [Instr])
 readLCR = undefined
