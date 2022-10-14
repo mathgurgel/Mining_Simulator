@@ -183,8 +183,9 @@ pInstr = char_to_instr <$> instrChar
             | i == 'C' = C
             | i == 'S' = S
 
+-- Exercise 9
 pProgram :: Parser Char [Instr]
-pProgram = undefined
+pProgram = greedy pInstr
 
 type Conf = (Robot, Mine)
 
