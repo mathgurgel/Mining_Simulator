@@ -1,6 +1,6 @@
 module Robot where
 
-import Prelude
+import Prelude hiding (lines)
 
 import Control.Monad.State
 import Parsing 
@@ -398,7 +398,8 @@ run instrs m = fst $ runState prog conf
 readLDM :: String -> IO (Either String Mine)
 readLDM inp =
     do
-        let result = runParser pMine inp
+        mine <- readFile inp
+        let result = runParser pMine mine
 
         case result of
             [] -> return (Left "error: cannot read ldm file")
@@ -411,7 +412,8 @@ readLDM inp =
 readLCR :: String -> IO (Either String [Instr])
 readLCR inp =
     do
-        let result = runParser pProgram inp
+        inst <- readFile inp
+        let result = runParser pProgram inst
 
         case result of
             [] -> return (Left "error: cannot read lcr file")
