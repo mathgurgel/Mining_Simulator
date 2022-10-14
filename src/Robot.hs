@@ -368,11 +368,8 @@ initRobot mine = Robot 100 (entrance mine) 0
 run :: [Instr] -> Mine -> Mine
 run = undefined
 
-readLines :: FilePath -> IO [String]
-readLines = fmap lines . readFile
-
 readLDM :: String -> IO (Either String Mine)
-readLDM = undefined
+readLDM = runParser pMine readFile
 
 readLCR :: String -> IO (Either String [Instr])
 readLCR = undefined
