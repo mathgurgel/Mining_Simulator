@@ -82,7 +82,7 @@ data Mine = Mine {
 
 --https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
 instance Show Mine where
-    show (Mine _ _ rows) = filter (`notElem` "[],") $ intercalate "\n" $ map show rows
+    show (Mine _ _ rows) = filter (`notElem` "[],") $ unlines $ map show rows
 
 -- Exercise 4
 
@@ -129,6 +129,8 @@ exampleMine = Mine {
 
 pLine :: Parser Char Line
 pLine = greedy pElement
+
+-- Exercise 7
 
 testMine :: String
 testMine = "%%%\n%%%\n%E%"
@@ -184,6 +186,7 @@ pInstr = char_to_instr <$> instrChar
             | i == 'S' = S
 
 -- Exercise 9
+
 pProgram :: Parser Char [Instr]
 pProgram = greedy pInstr
 

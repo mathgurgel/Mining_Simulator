@@ -35,22 +35,8 @@ exampleFakeMine = Mine {
                             [Wall,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Empty,Empty,Empty,Earth,Wall],
                             [Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall]]
             }
-{-exampleMineString :: String
-    = "%%%%%%%%%%%%%%%\n
-       %***..........%\n
-       %***... ...*..%\n
-       %***... ..***.%\n
-       %.?.... ...*..%\n
-       %..     .. ...%\n
-       %.... .... ...%\n
-       %.:.. .... ...%\n
-       %.. .       ..%\n
-       %..*. .. .....%\n
-       %.... .. .;;..%\n
-       %.*.. ...;;..*%\n
-       %............$%\n
-       %.........   .%\n
-       %%%%%%%%%%%%%E%" -}
+exampleMineString :: String
+exampleMineString = "%%%%%%%%%%%%%%%\n%***..........%\n%***... ...*..%\n%***... ..***.%\n%.?.... ...*..%\n%..     .. ...%\n%.... .... ...%\n%.:.. .... ...%\n%.. .       ..%\n%..*. .. .....%\n%.... .. .;;..%\n%.*.. ...;;..*%\n%............$%\n%.........   .%\n%%%%%%%%%%%%%E%\n" 
 main :: IO ()
 main = defaultMain tests
 
@@ -58,7 +44,7 @@ tests :: TestTree
 tests = testGroup "tests"
             [
                 testProperty "show mine" $
-                    show exampleMine == "%%%%%%%%%%%%%%%\n%***..........%\n%***... ...*..%\n%***... ..***.%\n%.?.... ...*..%\n%..     .. ...%\n%.... .... ...%\n%.:.. .... ...%\n%.. .       ..%\n%..*. .. .....%\n%.... .. .;;..%\n%.*.. ...;;..*%\n%............$%\n%.........   .%\n%%%%%%%%%%%%%E%",
+                    show exampleMine == exampleMineString,
                     
                 testProperty "show robot" $
                     show sampleRobot == "Energy:100\nPosition(1,1)\nCollected:0",
