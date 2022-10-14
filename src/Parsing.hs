@@ -1,28 +1,5 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
-module Parsing  ( Parser
-                , symbol
-                , token
-                , sat
-                , digitChar
-                , digit
-                , succeed
-                , failure
-                , (<|>)
-                , option
-                , many
-                , many1
-                , natural
-                , first
-                , greedy
-                , greedy1
-                , identifier
-                , listOf
-                , pack
-                , parenthesized
-                , endBy
-                , chainl
-                , chainr
-                , runParser) where
+module Parsing where
 
 import Data.Char
 

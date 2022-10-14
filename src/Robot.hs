@@ -126,11 +126,33 @@ exampleMine = Mine {
 
 
 -- Exercise 6
+
 pLine :: Parser Char Line
 pLine = greedy pElement
 
+testMine :: String
+testMine = "%%%\n%%%\n%E%"
+
 pMine :: Parser Char Mine
-pMine = undefined
+pMine = Parser runPrsr
+    where
+        runPrsr inp = case inp of
+                            [] -> []
+                            xs -> if (validMine mine) then [(mine, rest)]
+                                  else []
+            where
+                pElms = listOf pLine (symbol '\n')
+
+                result_pElms = runParser pElms inp
+                elms = fst $ head $ result_pElms
+                
+                rest = snd $ head $ result_pElms
+
+                nCols = length $ fst $ head $ runParser pLine inp
+
+                nLins = (length $ concat elms) `div` nCols
+
+                mine = Mine nLins nCols elms
 
 
 data Instr = L -- move para esquerda
