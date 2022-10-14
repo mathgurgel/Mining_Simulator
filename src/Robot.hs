@@ -1,11 +1,11 @@
 module Robot where
 
-import Prelude hiding (lines)
+import Prelude
 
 import Control.Monad.State
 import Parsing 
 --import Data.Matrix as MT
-import Data.List hiding (lines)
+import Data.List
 
 
 type Fuel = Int
@@ -75,7 +75,7 @@ pElement = char_to_elem <$> elemChar
 type Line = [Element]
 
 data Mine = Mine {
-              lines    :: Int,
+              lines'    :: Int,
               columns  :: Int,
               elements :: [Line]
             } deriving (Eq, Ord)
@@ -105,7 +105,7 @@ validMine mine = right_num_lines mine && right_num_columns mine && entrance mine
 
 exampleMine :: Mine
 exampleMine = Mine {
-                lines = 15,
+                lines' = 15,
                 columns = 15,
                 elements = [[Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall], 
                             [Wall,Rock,Rock,Rock,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Wall],
@@ -367,6 +367,9 @@ initRobot mine = Robot 100 (entrance mine) 0
 
 run :: [Instr] -> Mine -> Mine
 run = undefined
+
+readLines :: FilePath -> IO [String]
+readLines = fmap lines . readFile
 
 readLDM :: String -> IO (Either String Mine)
 readLDM = undefined
