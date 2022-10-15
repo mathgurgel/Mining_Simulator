@@ -1,3 +1,10 @@
+{-
+    Authors:
+        Luisa Calegari
+        Matheus Gurgel
+        Thiago Cecote
+-}
+
 module Robot where
 
 import Prelude hiding (lines)
