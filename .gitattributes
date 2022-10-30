@@ -3,3 +3,4 @@
 
 # Remove latex file from repository languages stats
 enunciado/prova02.tex -linguist-documentation
+enunciado/prova02.tex -linguist-vendored
