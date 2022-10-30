@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Remove latex file from repository languages stats
+enunciado/prova02.tex -linguist-documentation
