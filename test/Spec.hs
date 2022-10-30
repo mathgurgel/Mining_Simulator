@@ -35,8 +35,11 @@ exampleFakeMine = Mine {
                             [Wall,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Earth,Empty,Empty,Empty,Earth,Wall],
                             [Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall]]
             }
+
 exampleMineString :: String
 exampleMineString = "%%%%%%%%%%%%%%%\n%***..........%\n%***... ...*..%\n%***... ..***.%\n%.?.... ...*..%\n%..     .. ...%\n%.... .... ...%\n%.:.. .... ...%\n%.. .       ..%\n%..*. .. .....%\n%.... .. .;;..%\n%.*.. ...;;..*%\n%............$%\n%.........   .%\n%%%%%%%%%%%%%E%\n" 
+
+
 main :: IO ()
 main = defaultMain tests
 

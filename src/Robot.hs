@@ -86,9 +86,13 @@ data Mine = Mine {
               elements :: [Line]
             } deriving (Eq, Ord)
 
---https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
+-- Exercise 7
+
+-- https://stackoverflow.com/questions/13846870/using-show-with-a-list-of-lists-in-haskell
+
 instance Show Mine where
     show (Mine _ _ rows) = filter (`notElem` "[],") $ unlines $ map show rows
+
 
 -- Exercise 4
 
@@ -135,11 +139,6 @@ exampleMine = Mine {
 
 pLine :: Parser Char Line
 pLine = greedy pElement
-
--- Exercise 7
-
-testMine :: String
-testMine = "%%%\n%%%\n%E%\nasdasdas"
 
 pMine :: Parser Char Mine
 pMine = Parser runPrsr
@@ -196,10 +195,10 @@ pInstr = char_to_instr <$> instrChar
 pProgram :: Parser Char [Instr]
 pProgram = greedy pInstr
 
+
 type Conf = (Robot, Mine)
 
 type ConfM a = State Conf a
-
 
 -- Exercise 10
 
@@ -219,7 +218,6 @@ enoughEnergy eWanted
                     (robot, _) <- get
                     let eRobot = energy robot
                     return (eRobot > eWanted)
-
 
 incEnergy :: ConfM ()
 incEnergy = do  (Robot enr pos col, mine) <- get
@@ -288,11 +286,6 @@ updateMatrix m x (r,c) =
     take r m ++
     [take c (m !! r) ++ [x] ++ drop (c + 1) (m !! r)] ++
     drop (r + 1) m
-
-
--- 00 01 02
--- 10 11 12
--- 20 21 22
 
 -- Exercise 12
 
@@ -413,7 +406,6 @@ readLDM inp =
             [(m, _)] -> return (Right m)
 
 
-
 -- Exercise 17
 
 readLCR :: String -> IO (Either String [Instr])
@@ -424,4 +416,4 @@ readLCR inp =
 
         case result of
             [] -> return (Left "error: cannot read lcr file")
-            [(m, _)] -> return (Right m)
+            [(i, _)] -> return (Right i)
